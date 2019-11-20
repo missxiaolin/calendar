@@ -81,7 +81,7 @@
           <div class="form-control">{{formatDate(new Date(eventsInfo.end))}}</div>
         </div>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" v-if="editable">
           <el-button size="small" type="danger" @click="handleRemoveTask">删除</el-button>
           <el-button size="small" type="primary" @click="handleEditTask">编辑</el-button>
       </div>
@@ -324,7 +324,7 @@ export default {
       this.init();
     }else{
       this.handleQueryMember();
-      this.handleTaskMember();
+      this.handleQueryTask();
     }
     //开启编辑权限
     this.editable = sessionStorage.getItem('edit')
@@ -336,19 +336,29 @@ export default {
         this.handleQueryMember();
       });
       this.handleCreatJs("https://enmonster-web.oss-cn-shanghai.aliyuncs.com/calendar/task.js","task",()=>{
-        this.handleTaskMember();
+        this.handleQueryTask();
       })
     },
+    /**
+     * 获取成员数据
+     */
     handleQueryMember(){
       let members = JSON.parse(sessionStorage.getItem('member'));
       if(members)
       this.memberList = members;
     },
-    handleTaskMember(){
+    /**
+     * 获取任务数据
+     */
+    handleQueryTask(){
       let tasks = JSON.parse(sessionStorage.getItem('task'));
       if(tasks)
       this.calendarEventLists = tasks;
     },
+    /**
+     * 加载远程js
+     * @param {url, jsId, callback}
+     */
     handleCreatJs(url, jsId, callback) {
       let oldJs = window.parent.document.getElementById(jsId)
       //判断是否存在，如果存在先移除，再重新创建
@@ -378,6 +388,9 @@ export default {
         }
       }
     },
+    /**
+     * 递归获取tree数据模型node
+     */
     getNodeValue(Data, ID,field) {
       let Deep, T, F;
       for (F = Data.length; F;) {
@@ -389,27 +402,39 @@ export default {
         }
       }
     },
-    handleDateClick(arg) {
-      if (confirm("Would you like to add an event to " + arg.dateStr + " ?")) {
-        this.calendarEvents.push({
-          // add new event data
-          title: "New Event",
-          start: arg.date,
-          allDay: arg.allDay
-        });
-      }
-    },
+    /**
+     * 点击日历日期
+     */
+    // handleDateClick(arg) {
+    //   if (confirm("Would you like to add an event to " + arg.dateStr + " ?")) {
+    //     this.calendarEvents.push({
+    //       // add new event data
+    //       title: "New Event",
+    //       start: arg.date,
+    //       allDay: arg.allDay
+    //     });
+    //   }
+    // },
+    /**
+     * 点击日历任务
+     */
     handleEventClick(info) {
       console.log("info---->", info);
       this.eventsInfo = info.event;
       this.eventsVisible = true;
     },
+    /**
+     * 日历任务拖拽
+     */
     handleEventDrop(info) {
       // console.log(info);
       if (!confirm("Are you sure about this change?")) {
         info.revert();
       }
     },
+    /**
+     * 重置任务信息
+     */
     handleRestTaskInfo(){
       this.taskInfo = {
         heardTitle: "新增任务",
@@ -420,6 +445,9 @@ export default {
         isEidt: false, //是否是编辑状态 
       }
     },
+    /**
+     * 选择日历日期 添加任务
+     */
     handleSelect(info) {
       // console.log("info--->", info);
       this.handleRestTaskInfo();
@@ -430,6 +458,9 @@ export default {
       this.taskInfo.times = [].concat([info.startStr, endTime]);
       this.taskVisible = true;
     },
+    /**
+     * 任务展示条数受限，点击更多
+     */
     eventLimitClick(info) {
       console.log("info----->", info);
     },
@@ -473,7 +504,7 @@ export default {
       this.handleSessionStorage('task',this.calendarEventLists);
     },
     /**
-     * 移除
+     * 移除任务
      */
     handleRemoveTask(){
       this.eventsVisible = false;
@@ -490,14 +521,7 @@ export default {
       });
       
     },
-    handleDownJson(fileName, data) {
-      data = JSON.stringify(data);
-      let content = `window.localStorage.setItem(${JSON.stringify(
-        fileName
-      )},${JSON.stringify(data)})`;
-      let blob = new Blob([content], { type: "" });
-      saveAs(blob, `${fileName}.js`);
-    },
+    
     /**
      * 编辑任务
      */
@@ -529,7 +553,7 @@ export default {
       }
     },
     /**
-     * 
+     * 加载小组
      */
     handleAddGroup(){
       if(!this.groupInfo.name.length){
@@ -540,7 +564,7 @@ export default {
         name: this.groupInfo.name,
         children: []
       })
-      this.memberList.visble = false;
+      this.memberInfo.visble = false;
       this.handleSessionStorage('member',this.memberList)
     },
     /**
@@ -587,6 +611,17 @@ export default {
      */
     handleSessionStorage(name,data){
       sessionStorage.setItem(name,JSON.stringify(data));
+    },
+    /**
+     * 下载数据
+     */
+    handleDownJson(fileName, data) {
+      data = JSON.stringify(data);
+      let content = `window.sessionStorage.setItem(${JSON.stringify(
+        fileName
+      )},${JSON.stringify(data)})`;
+      let blob = new Blob([content], { type: "" });
+      saveAs(blob, `${fileName}.js`);
     },
   }
 };
