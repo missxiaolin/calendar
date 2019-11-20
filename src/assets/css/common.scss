@@ -1,0 +1,123 @@
+/*css reset*/
+
+*{margin:0;padding:0;border:0;outline:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+// html,body{ height: 100%; overflow:hidden;}
+html,body,form,fieldset,p,div,h1,h2,h3,h4,h5,h6{-webkit-text-size-adjust:none}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;clear:both;}
+body{ font-family: "sans-serif","PingFang SC","Microsoft YaHei","微软雅黑","Hiragino Sans GB","Helvetica Neue",Helvetica,Arial; font-size:13px; background-color: #fff; -webkit-text-size-adjust:none;  -webkit-tap-highlight-color:transparent;}
+h1,h2,h3,h4,h5,h6{font-size:100%; font-weight:normal}
+i,span,em,cite,p,dl,dt,dd,span,b{ font-style:normal; font-weight: normal;}
+input,button,textarea{ background: transparent; font-size: 100%;}
+img{border:0;-ms-interpolation-mode:bicubic; }
+ul,ol,li{list-style:none}
+a{ color: #29c1c2; text-decoration: none; }
+a:hover{ color: rgb(131, 192, 253); }
+
+.word-break{
+    word-break:break-word; /* 支持IE和chrome，FF不支持*/
+    word-wrap:break-word; /* 以上三个浏览器均支持 */
+}
+
+.underline{ text-decoration: underline}
+
+.eb-icon-menu{
+    font-family:"iconfont" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display:inline-block;
+}
+.break { word-break:break-all; word-wrap:break-word}
+
+//单行省略...
+.single-ellipsis{ width: 100%; overflow: hidden; white-space: nowrap; text-overflow:ellipsis;}
+//2行省略号 ... 兼容问题比较严重
+.two-line-ellipsis{ width: 100%; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
+
+.flex{ display: flex !important;}
+.flex-1{ flex: 1;}
+.flex-2{ flex: 2;}
+.flex-3{ flex: 3;}
+.flex-4{ flex: 4;}
+/*      项目在 X  轴的【排列】方向    */
+.flex-row{ flex-direction: row  !important;                        /* 主轴为水平方向，起点在左端   */}
+.flex-row-reverse{ flex-direction: row-reverse  !important;        /* 主轴为水平方向，起点在右端   */}
+
+/*     在 X 轴上的【对齐】方式        */
+.justify-start{ justify-content: flex-start !important;             /*  默认：左对齐  */ }
+.justify-center{ justify-content: center !important;               /* 居中  */ }
+.justify-between{ justify-content: space-between !important;       /* 两端对齐，项目之间的间隔都相等    */ }
+.justify-around{ justify-content: space-around !important;         /*   每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍  */ }
+.justify-end{ justify-content: flex-end !important;                /*  右对齐 */ }
+
+/*      在 X 轴 上 【项目换行】 方式      */
+.flex-nowrap{ flex-wrap: nowrap !important;                        /*  （默认）：不换行 */  }
+.flex-wrap{ flex-wrap: wrap !important;                            /*  换行，第一行在上方 */  }
+.flex-reverse{ flex-wrap: wrap-reverse !important;                 /*  换行，第一行在下方*/  }
+
+/*      项目在 Y  轴的【排列】方向    -----------------------------------------------------                */
+.flex-column{ flex-direction: column  !important;                  /* 主轴为垂直方向，起点在上沿   */}
+.flex-column-reverse{ flex-direction: column-reverse  !important;  /* 主轴为垂直方向，起点在下沿  */}
+/*    -----  属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性    -----     */
+.align-start{align-self: flex-start !important;          /* 主轴为垂直方向，起点在上沿   */}
+.align-end{align-self: flex-end !important;          /* 主轴为垂直方向，起点在下沿   */}
+
+/*      在 Y 轴 上 【对齐】 方式      */
+.align-items-start{ align-items: flex-start !important;                   /*   Y轴的起点对齐  */}
+.align-items-end{ align-items: flex-end !important;                       /*   Y轴的终点对齐  */}
+.align-items-center{ align-items: center !important;                      /*   Y轴的中点对齐  */}
+.align-items-baseline{ align-items: baseline !important;                  /*   Y轴的项目的第一行文字的基线对齐  */}
+.align-items-stretch{ align-items: stretch !important;                    /*   Y轴如果项目未设置高度或设为auto，将占满整个容器的高度 */}
+
+
+.ellipsis { white-space:nowrap; text-overflow:ellipsis; overflow:hidden}
+/*滚动条整体部分,必须要设置*/
+::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+    background-color: rgba(245, 238, 238,.6);
+}
+/*滚动条的轨道*/
+::-webkit-scrollbar-track{
+    // box-shadow: inset 0 0 5px rgba(0,0,0,.3);
+    background-color: rgba(212, 213, 224,0);
+}
+/*滚动条的滑块按钮*/
+::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: rgba(88, 88, 88, 0.6);
+    // box-shadow: inset 0 0 5px #000;
+}
+/*滚动条的上下两端的按钮*/
+::-webkit-scrollbar-button{
+    height: 0px; width: 0;
+    background-color: rgba(245, 238, 238,.6);
+}
+
+//
+.form-row{ @extend .flex;
+    .form-label{ @extend .flex;  align-items: center; width: 100px; line-height: 22px; padding: 5px 0 5px 10px;
+        i{ color: #f00;
+            &.green{ color: rgb(0, 194, 0)}
+        }
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
+    .form-control{ @extend .flex; @extend .flex-1; position: relative;  align-items: center; padding: 5px 10px 5px 0;
+        @media screen and (max-width: 768px) {
+            align-items:flex-start;
+           text-align: right;
+           justify-content: flex-end;
+            width: 100%;
+        }
+        // &.control-text{ line-height: 40px; /*   表单显示纯文字样式   */}
+    }
+}
+
+//
+.el-dialog__body{ padding: 15px 20px 30px;}
+.el-select,
+.el-date-editor--datetimerange.el-input, 
+.el-date-editor--datetimerange.el-input__inner,
+.el-cascader{ @extend .flex-1; width: auto;}
