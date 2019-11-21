@@ -208,6 +208,7 @@ import timeGridPlugin from "@/components/@fullcalendar/timegrid";
 import listPlugin from "@/components/@fullcalendar/list";
 import interactionPlugin from "@/components/@fullcalendar/interaction";
 import { saveAs } from "file-saver";
+
 export default {
   components: {
     FullCalendar, // make the <FullCalendar> tag available
